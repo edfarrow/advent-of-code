@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Day1
+{
+    public class Elf
+    {
+        public int LoadCarried;
+
+        public void AddLoad(int load)
+        {
+            LoadCarried += load;
+        }
+    }
+}
