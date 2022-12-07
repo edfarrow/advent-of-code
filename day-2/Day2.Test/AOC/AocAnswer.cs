@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using NUnit.Framework.Interfaces;
+
+namespace Day2.Test.AOC
+{
+    public class AocAnswer
+    {
+        [Test]
+        public void FindAocAnswerToPart1()
+        {
+            var result = new RockPaperScissorsScoreAggregator();
+            result.AddRoundData(AocData.Data);
+            result.CalculateTotalScores();
+
+            TestContext.WriteLine(result.TotalHumanScore);
+        }
+
+        //[Test]
+        //public void FindAocAnswerToPart2()
+        //{
+        //    TestContext.WriteLine(result);
+        //}
+    }
+}
