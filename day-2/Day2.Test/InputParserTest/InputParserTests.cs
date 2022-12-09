@@ -9,15 +9,23 @@ namespace Day2.Test.InputParserTest
 {
     public class InputParserTests
     {
-        [TestCaseSource(nameof(GetTestData))]
-        public void GivenAValidInput_WhenParsed_ThenCorrectRoundDataIsSet(InputParserTestData inputData)
+        [TestCaseSource(nameof(GetTestDataForPlayerInput))]
+        public void GivenPlayerInputIsMoves_WhenAValidInputIsParsed_ThenCorrectRoundDataIsSet(InputParserTestData inputData)
         {
-            var result = InputParser.ParseInput(inputData.Input);
+            var result = InputParser.ParseInput(inputData.Input, treatPlayerInputAsStrategyGuide: false);
 
             result.Should().BeEquivalentTo(inputData.ExpectedResult);
         }
 
-        private static List<InputParserTestData> GetTestData()
+        [TestCaseSource(nameof(GetTestDataForPlayerStrategy))]
+        public void GivenPlayerInputIsStrategy_WhenAValidInputIsParsed_ThenCorrectRoundDataIsSet(InputParserTestData inputData)
+        {
+            var result = InputParser.ParseInput(inputData.Input, treatPlayerInputAsStrategyGuide: false);
+
+            result.Should().BeEquivalentTo(inputData.ExpectedResult);
+        }
+
+        private static List<InputParserTestData> GetTestDataForPlayerInput()
         {
             return new List<InputParserTestData>
             {
@@ -41,5 +49,31 @@ namespace Day2.Test.InputParserTest
                 }
             };
         }
+
+        private static List<InputParserTestData> GetTestDataForPlayerStrategy()
+        {
+            return new List<InputParserTestData>
+            {
+                new InputParserTestData
+                {
+                    Input = "A X",
+                    ExpectedResult = new()
+                    {
+                        new RockPaperScissorsRound(RockPaperScissorsMove.Rock, RockPaperScissorsMove.Paper)
+                    }
+                },
+                new InputParserTestData
+                {
+                    Input = "A Y\r\nB X\r\nC Z",
+                    ExpectedResult = new()
+                    {
+                        new RockPaperScissorsRound(RockPaperScissorsMove.Rock, RockPaperScissorsMove.Rock),
+                        new RockPaperScissorsRound(RockPaperScissorsMove.Paper, RockPaperScissorsMove.Rock),
+                        new RockPaperScissorsRound(RockPaperScissorsMove.Scissors, RockPaperScissorsMove.Rock)
+                    }
+                }
+            };
+        }
+
     }
 }

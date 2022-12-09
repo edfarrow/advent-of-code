@@ -18,9 +18,9 @@ namespace Day2
         {
         }
 
-        public void AddRoundData(string input)
+        public void AddRoundData(string input, bool treatPlayerInputAsStrategyGuide)
         {
-            _rounds.AddRange(InputParser.ParseInput(input));
+            _rounds.AddRange(InputParser.ParseInput(input, treatPlayerInputAsStrategyGuide));
         }
 
         public void CalculateTotalScores()

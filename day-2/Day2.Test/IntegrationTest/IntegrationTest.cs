@@ -10,11 +10,11 @@ namespace Day2.Test.IntegrationTest
 {
     public class IntegrationTest
     {
-        [TestCaseSource(nameof(GetTestData))]
-        public void GivenAnInputString_WhenProcessed_ThenCorrectScoresAreCalculated(IntegrationTestData testData)
+        [TestCaseSource(nameof(GetTestDataForPlayerInput))]
+        public void GivenPlayerInputIsMoves_WhenAnInputStringIsProcessed_ThenCorrectScoresAreCalculated(IntegrationTestData testData)
         {
             var result = new RockPaperScissorsScoreAggregator();
-            result.AddRoundData(testData.Input);
+            result.AddRoundData(testData.Input, treatPlayerInputAsStrategyGuide: false);
             result.CalculateTotalScores();
 
             using var _ = new AssertionScope();
@@ -22,7 +22,19 @@ namespace Day2.Test.IntegrationTest
             result.TotalHumanScore.Should().Be(testData.ExpectedHumanScore);
         }
 
-        private static List<IntegrationTestData> GetTestData()
+        [TestCaseSource(nameof(GetTestDataForPlayerStrategy))]
+        public void GivenPlayerInputIsStrategy_WhenAnInputStringIsProcessed_ThenCorrectScoresAreCalculated(IntegrationTestData testData)
+        {
+            var result = new RockPaperScissorsScoreAggregator();
+            result.AddRoundData(testData.Input, treatPlayerInputAsStrategyGuide: true);
+            result.CalculateTotalScores();
+
+            using var _ = new AssertionScope();
+            result.TotalElfScore.Should().Be(testData.ExpectedElfScore);
+            result.TotalHumanScore.Should().Be(testData.ExpectedHumanScore);
+        }
+
+        private static List<IntegrationTestData> GetTestDataForPlayerInput()
         {
             return new List<IntegrationTestData>
             {
@@ -37,6 +49,25 @@ namespace Day2.Test.IntegrationTest
                     Input = "A Y\r\nB X\r\nC Z",
                     ExpectedElfScore = 15,
                     ExpectedHumanScore = 15,
+                }
+            };
+        }
+
+        private static List<IntegrationTestData> GetTestDataForPlayerStrategy()
+        {
+            return new List<IntegrationTestData>
+            {
+                new IntegrationTestData
+                {
+                    Input = "A X",
+                    ExpectedElfScore = 7,
+                    ExpectedHumanScore = 3,
+                },
+                new IntegrationTestData
+                {
+                    Input = "A Y\r\nB X\r\nC Z",
+                    ExpectedElfScore = 15,
+                    ExpectedHumanScore = 12,
                 }
             };
         }

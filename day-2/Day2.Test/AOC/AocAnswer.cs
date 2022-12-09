@@ -14,16 +14,20 @@ namespace Day2.Test.AOC
         public void FindAocAnswerToPart1()
         {
             var result = new RockPaperScissorsScoreAggregator();
-            result.AddRoundData(AocData.Data);
+            result.AddRoundData(AocData.Data, treatPlayerInputAsStrategyGuide: false);
             result.CalculateTotalScores();
 
             TestContext.WriteLine(result.TotalHumanScore);
         }
 
-        //[Test]
-        //public void FindAocAnswerToPart2()
-        //{
-        //    TestContext.WriteLine(result);
-        //}
+        [Test]
+        public void FindAocAnswerToPart2()
+        {
+            var result = new RockPaperScissorsScoreAggregator();
+            result.AddRoundData(AocData.Data, treatPlayerInputAsStrategyGuide: true);
+            result.CalculateTotalScores();
+
+            TestContext.WriteLine(result.TotalHumanScore);
+        }
     }
 }
